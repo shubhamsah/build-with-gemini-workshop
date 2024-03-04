@@ -11,9 +11,9 @@ Your goal is to develop a user-friendly Streamlit application that allows users 
 1. **Environment Setup:**
    - Make sure to have Python installed on your machine.
    - Create a requirements.txt file and add the following dependencies in the list 
-    - streamlit
-    - google-generativeai
-    - python-dotenv
+        - streamlit
+        - google-generativeai
+        - python-dotenv
    - Install the necessary Python packages using the following command:
      ```bash
      pip install -r requirements.txt
