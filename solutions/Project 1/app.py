@@ -1,45 +1,44 @@
 from dotenv import load_dotenv
-
-load_dotenv()  # take environment variables from .env.
-
-import streamlit as st
 import os
+import streamlit as st
 import google.generativeai as genai
-import pathlib
-import textwrap
 
-from IPython.display import display
-from IPython.display import Markdown
+# Load environment variables from .env file
+load_dotenv()
 
-
-def to_markdown(text):
-  text = text.replace('•', '  *')
-  return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
-
-os.getenv("GOOGLE_API_KEY")
+# Configure Google API key
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-## Function to load Gemini model and get respones
 
 def get_gemini_response(question):
+    # Load Gemini model and generate response
     model = genai.GenerativeModel('gemini-pro')
     response = model.generate_content(question)
     return response.text
 
-##initialize our streamlit app
 
-st.set_page_config(page_title="Q&A Demo")
-
-st.header("Gemini Application")
-
-input=st.text_input("Input: ",key="input")
-
-
-submit=st.button("Generate")
-
-## If ask button is clicked
-
-if submit: 
-    response=get_gemini_response(input)
+def display_response(text):
+    # Display response in a subheader
     st.subheader("The Response is")
-    st.write(response)
+    st.write(to_markdown(text))
+
+def main():
+    # Set page title and header
+    st.set_page_config(page_title="Q&A Demo")
+    st.header("Gemini Application")
+
+    # User input
+    input_text = st.text_input("Input:", key="input")
+
+    # Button to generate a response
+    submit_button = st.button("Generate")
+
+    if submit_button:
+        # Get a response and display
+        response = get_gemini_response(input_text)
+        display_response(response)
+
+
+if __name__ == "__main__":
+    # Run the main function
+    main()
